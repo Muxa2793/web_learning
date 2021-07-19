@@ -12,3 +12,7 @@ requests-2.25.1
 urllib3-1.26.6
 beautifulsoup4-4.9.3
 soupsieve-2.2.1
+SQLAlchemy-1.4.21
+flask-sqlalchemy-2.5.1 
+greenlet-1.1.0
+psycopg2-binary-2.9.1

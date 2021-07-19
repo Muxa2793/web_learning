@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# My ignore
 .vscode/
 settings.py
+.DS_Store/
+setup.cfg
