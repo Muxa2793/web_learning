@@ -1,6 +1,6 @@
-from functools import  wraps
+from functools import wraps
 from flask import current_app, flash, request, redirect, url_for
-from flask_login import  config, current_user
+from flask_login import config, current_user
 
 
 def admin_required(func):

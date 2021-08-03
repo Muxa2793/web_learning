@@ -3,16 +3,19 @@ from webapp.user.models import User
 from webapp import db
 from flask_login import login_user, logout_user, current_user
 from flask import render_template, flash, redirect, url_for, Blueprint
+from webapp.utils import get_redirect_target
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
+
 
 @blueprint.route('/login')
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('news.index'))
+        return redirect(get_redirect_target())
     page_title = 'Авторизация'
     login_form = LoginForm()
     return render_template('user/login.html', page_title=page_title, form=login_form)
+
 
 @blueprint.route('/process-login', methods=['POST'])
 def process_login():
@@ -22,16 +25,17 @@ def process_login():
         if user and user.check_password_hash(form.password.data):
             login_user(user, remember=form.remember_me.data)
             flash('Вы успешно вошли на сайт')
-            return redirect(url_for('news.index'))
-    
+            return redirect(get_redirect_target())
     flash('Неправильные имя или пароль')
-    return redirect(url_for('user.login'))
+    return redirect(get_redirect_target())
+
 
 @blueprint.route('/logout')
 def logout():
     logout_user()
     flash('Вы успешно разлогинились')
-    return redirect(url_for('news.index'))
+    return redirect(get_redirect_target())
+
 
 @blueprint.route('/register')
 def register():
@@ -40,6 +44,7 @@ def register():
     page_title = 'Регистрация'
     form = RegistrationForm()
     return render_template('user/registration.html', page_title=page_title, form=form)
+
 
 @blueprint.route('/process-reg', methods=['POST'])
 def process_reg():
@@ -51,5 +56,8 @@ def process_reg():
         db.session.commit()
         flash('Вы успешно зарегестрировались!')
         return redirect(url_for('user.login'))
-    flash('Пожалуйста исправьте ошибки в форме')
-    return redirect(url_for('user.register'))
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(f'Ошибка в поле "{getattr(form, field).label.text}": {error}')
+        return redirect(url_for('user.register'))
