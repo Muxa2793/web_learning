@@ -6,8 +6,7 @@ from webapp.db import db
 
 
 def get_news_snippets():
-    html = get_html('https://habr.com/ru/rss/search/?q=python++++++++'
-                    '&order_by=date++++++++&target_type=posts++++++++&hl=ru++++++++&fl=ru&fl=ru')
+    html = get_html('https://habr.com/ru/rss/hub/python/all/?fl=ru')
     if html:
         soup = BeautifulSoup(html, 'html.parser')
 
