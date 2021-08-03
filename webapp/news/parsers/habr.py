@@ -6,10 +6,11 @@ from webapp.db import db
 
 
 def get_news_snippets():
-    html = get_html('https://habr.com/ru/rss/search/?q=python++++++++&order_by=date++++++++&target_type=posts++++++++&hl=ru++++++++&fl=ru&fl=ru')
+    html = get_html('https://habr.com/ru/rss/search/?q=python++++++++'
+                    '&order_by=date++++++++&target_type=posts++++++++&hl=ru++++++++&fl=ru&fl=ru')
     if html:
         soup = BeautifulSoup(html, 'html.parser')
-        
+
         title_list = []
         url_news_list = []
         pub_date_list = []
@@ -18,12 +19,12 @@ def get_news_snippets():
         for title in title_news[2:]:
             title_list.append(title.text)
         # print(title_list)
-        
+
         url_news = soup.find_all('guid', text=True)
         for url in url_news:
             url_news_list.append(url.text)
         # print(url_news_list)
-        
+
         pub_date_news = soup.find_all('pubdate')
         for pub_date in pub_date_news[1:]:
             pub_date_list.append(pub_date.text)

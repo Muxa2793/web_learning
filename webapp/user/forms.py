@@ -15,9 +15,11 @@ class RegistrationForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()], render_kw={'class': 'form-control'})
     email = StringField('Электронная почта', validators=[DataRequired(), Email()], render_kw={'class': 'form-control'})
     password = PasswordField('Пароль', validators=[DataRequired()], render_kw={'class': 'form-control'})
-    password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password', message='Введённые пароли не совпадают')], render_kw={'class': 'form-control'})
+    password2 = PasswordField('Повторите пароль',
+                              validators=[DataRequired(), EqualTo('password',
+                                                                  message='Введённые пароли не совпадают')],
+                              render_kw={'class': 'form-control'})
     submit = SubmitField('Отправить', render_kw={'class': 'btn btn-primary'})
-
 
     def validate_username(self, username):
         user_count = User.query.filter_by(username=username.data).count()
